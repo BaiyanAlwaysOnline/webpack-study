@@ -5,6 +5,7 @@ const webpack = require("webpack");
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
+  devtool: false,
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "index_bundle.js",
@@ -13,7 +14,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, "static"),
