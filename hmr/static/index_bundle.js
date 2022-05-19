@@ -14,7 +14,7 @@
     hotDownloadManifest()
       .then((update) => {
         // {"c":["main"],"r":[],"m":[]} c里面存放的是模块id
-        update.c.forEach((moduleId) => hotDownloadUpdateChunk(moduleId));
+        update.c.forEach((chunkId) => hotDownloadUpdateChunk(chunkId));
         // 执行完成后，更新hash
         lastHash = currentHash;
       })
@@ -29,9 +29,9 @@
   }
 
   // 创建script标签去下载，jsonp的原理
-  function hotDownloadUpdateChunk(moduleId) {
+  function hotDownloadUpdateChunk(chunkId) {
     const script = document.createElement("script");
-    script.src = `${moduleId}.${lastHash}.hot-update.js`;
+    script.src = `${chunkId}.${lastHash}.hot-update.js`;
     // ! 下载的这个script会执行 self["webpackHotUpdatehmr"]的这个方法
     /**
      * `${moduleId}.${lastHash}.hot-update.js`
