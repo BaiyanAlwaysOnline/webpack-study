@@ -1,3 +1,7 @@
+/**
+ * 开启了热更新，此文件会被自动写入到webpack.config.entry
+ */
+
 console.log("来自webpack-dev-server/client/index.js");
 
 const hotEmitter = require("../../webpack/hot/emitter.js");
