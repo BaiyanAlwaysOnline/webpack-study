@@ -1,1 +1,1 @@
-module.exports = "content123";
+module.exports = "content";

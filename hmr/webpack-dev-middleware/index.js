@@ -6,7 +6,7 @@
  */
 
 const MemoryFileSystem = require("memory-fs");
-// const fs = require("fs");
+const fs = require("fs");
 const middle = require("./middleware");
 function webpackDevMiddleware(complier) {
   // 执行webpack的watch命令，监听文件变化
@@ -22,7 +22,7 @@ function webpackDevMiddleware(complier) {
 
   // ! 产出的文件并不是写在硬盘上了，为了提升性能，产出的文件放在内存中，所以磁盘上看不见
   // 把webpack的outputFileSystem改成memory-fs
-  const fs = (complier.outputFileSystem = new MemoryFileSystem());
+  // const fs = (complier.outputFileSystem = new MemoryFileSystem());
   return middle({
     fs,
     outputPath: complier.options.output.path, // 写入目录的路径
