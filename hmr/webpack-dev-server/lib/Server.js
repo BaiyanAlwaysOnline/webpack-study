@@ -1,22 +1,22 @@
 const express = require("express");
 const http = require("http");
 const webpackDevMiddleware = require("../../webpack-dev-middleware");
-const updateComplier = require("./utils/updateComplier");
+const updateCompiler = require("./utils/updateCompiler");
 const { Server: WebSocketServer } = require("socket.io");
 
 class Server {
-  constructor(complier, devServerOptions) {
-    this.complier = complier;
+  constructor(compiler, devServerOptions) {
+    this.compiler = compiler;
     this.devServerOptions = devServerOptions;
     this.sockets = [];
-    // 更新complier，给用户配置的entry入口增加两个文件
-    updateComplier(complier);
+    // 更新compiler，给用户配置的entry入口增加两个文件
+    updateCompiler(compiler);
     this.setupHooks();
     this.setupApp();
     this.routes();
     this.setupDevMiddleware();
     this.createServer();
-    this.createWebocketServer();
+    this.createWebSocketServer();
   }
 
   setupApp() {
@@ -26,7 +26,7 @@ class Server {
   // 监听编译成功的事件
   setupHooks() {
     // stats: 编译成功后的成功描述（modules, chunks, files, assets, entries）
-    this.complier.hooks.done.tap("wds", (stats) => {
+    this.compiler.hooks.done.tap("wds", (stats) => {
       console.log("一次完整编译完成 hooks.done", stats.hash);
       // 每次编译完成要广播通知
       this.sockets.forEach((socket) => {
@@ -39,7 +39,7 @@ class Server {
 
   // 开始启动编译
   setupDevMiddleware() {
-    this.middleware = webpackDevMiddleware(this.complier);
+    this.middleware = webpackDevMiddleware(this.compiler);
     this.app.use(this.middleware);
   }
 
@@ -55,7 +55,7 @@ class Server {
     this.server = http.createServer(this.app);
   }
 
-  createWebocketServer() {
+  createWebSocketServer() {
     // ! 连接socket服务要握手，是通过HTTP服务建立的连接
     const io = new WebSocketServer(this.server);
     io.on("connection", (socket) => {

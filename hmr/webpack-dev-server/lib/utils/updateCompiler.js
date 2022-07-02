@@ -1,12 +1,12 @@
 // TODO path.resolve path.join require.resolve的区别
 
 /**
- * 更新complier，给用户配置的entry入口增加两个文件
- * @param {*} complier
+ * 更新compiler，给用户配置的entry入口增加两个文件
+ * @param {*} compiler
  */
-function updateComplier(complier) {
-  const options = complier.options;
-  const hooks = complier.hooks;
+function updateCompiler(compiler) {
+  const options = compiler.options;
+  const hooks = compiler.hooks;
   // ! 1.来自webpack-dev-server/client/index.js  => 浏览器中的websocket客户端
   options.entry.main.import.unshift(require.resolve("../../client/index.js"));
   // ! 2.来自webpack/hot/dev-server.js  => 浏览器中监听事件，处理热更新逻辑
@@ -17,4 +17,4 @@ function updateComplier(complier) {
   hooks.entryOption.call(options.context, options.entry);
 }
 
-module.exports = updateComplier;
+module.exports = updateCompiler;
